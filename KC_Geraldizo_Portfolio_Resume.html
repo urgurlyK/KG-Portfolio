@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KC L. Geraldizo — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f0e;
+    --surface: #131614;
+    --card: #181c1a;
+    --border: rgba(255,255,255,0.07);
+    --green: #6fcf8e;
+    --green-dim: rgba(111,207,142,0.12);
+    --white: #f0f4f2;
+    --muted: #7a8880;
+    --dim: #4a5550;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* grain overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 60px;
+    background: rgba(13,15,14,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+
+  .nav-logo span { color: var(--green); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--green); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(111,207,142,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--green);
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 8vw, 110px);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .hero-tagline {
+    margin-top: 28px;
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 520px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .hero-meta {
+    margin-top: 48px;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .meta-value {
+    font-size: 14px;
+    color: var(--white);
+  }
+
+  .meta-value a {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .meta-value a:hover { color: var(--green); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    animation: fadeUp 0.7s 0.5s ease both;
+  }
+
+  .scroll-line {
+    width: 48px;
+    height: 1px;
+    background: var(--dim);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scroll-line::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: var(--green);
+    animation: scanLine 2s ease infinite;
+  }
+
+  /* ── SUMMARY ── */
+  .summary-section {
+    padding: 100px 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--green);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .summary-text {
+    font-size: 17px;
+    color: #b0bdb7;
+    line-height: 1.9;
+    max-width: 760px;
+    border-left: 2px solid var(--green);
+    padding-left: 28px;
+  }
+
+  /* ── EXPERIENCE ── */
+  .exp-section {
+    padding: 100px 60px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exp-inner { max-width: 1100px; margin: 0 auto; }
+
+  .exp-card {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .exp-left {}
+
+  .exp-date {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+
+  .exp-role {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .exp-org {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .exp-right {}
+
+  .exp-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .exp-bullets li {
+    font-size: 15px;
+    color: #9aada7;
+    line-height: 1.7;
+    padding-left: 22px;
+    position: relative;
+  }
+
+  .exp-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 6px;
+    height: 6px;
+    border: 1px solid var(--green);
+    border-radius: 50%;
+  }
+
+  /* ── EDUCATION ── */
+  .edu-section {
+    padding: 100px 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .edu-grid {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .edu-card:hover {
+    border-color: rgba(111,207,142,0.3);
+    transform: translateY(-4px);
+  }
+
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green), transparent);
+  }
+
+  .edu-level {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+  }
+
+  .edu-school {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .edu-detail {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .edu-year {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+  }
+
+  .edu-highlight {
+    display: inline-block;
+    margin-top: 10px;
+    background: var(--green-dim);
+    color: var(--green);
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(111,207,142,0.2);
+  }
+
+  /* ── SKILLS ── */
+  .skills-section {
+    padding: 100px 60px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skills-inner { max-width: 1100px; margin: 0 auto; }
+
+  .skills-grid {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .skill-tile {
+    background: var(--card);
+    padding: 36px 32px;
+    border: 1px solid var(--border);
+    transition: background 0.3s, border-color 0.3s;
+    cursor: default;
+  }
+
+  .skill-tile:hover {
+    background: var(--green-dim);
+    border-color: rgba(111,207,142,0.25);
+  }
+
+  .skill-icon {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .skill-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .skill-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* ── CONTACT FOOTER ── */
+  .contact-section {
+    padding: 120px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-section::before {
+    content: '';
+    position: absolute;
+    bottom: -300px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(111,207,142,0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .contact-title em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .contact-sub {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 48px;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 14px;
+    transition: border-color 0.25s, color 0.25s, background 0.25s;
+  }
+
+  .contact-link:hover {
+    border-color: var(--green);
+    color: var(--green);
+    background: var(--green-dim);
+  }
+
+  .contact-link-icon {
+    font-size: 16px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scanLine {
+    0%   { left: -100%; }
+    50%, 100% { left: 100%; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero, .summary-section, .exp-section, .edu-section, .skills-section, .contact-section { padding-left: 24px; padding-right: 24px; }
+    .exp-card { grid-template-columns: 1fr; gap: 24px; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">KC<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Portfolio</p>
+  <h1 class="hero-name">KC L.<br><em>Geraldizo</em></h1>
+  <p class="hero-tagline">Aspiring Administrative Officer &amp; BS Business Administration Graduate — Financial Management Major</p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-label">Location</span>
+      <span class="meta-value">Linamon, LAN 9201</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Phone</span>
+      <span class="meta-value"><a href="tel:+639360247693">+63 936 024 7693</a></span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Email</span>
+      <span class="meta-value"><a href="mailto:kcgeraldizo.202100048@gmail.com">kcgeraldizo.202100048@gmail.com</a></span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">CGPA</span>
+      <span class="meta-value">1.71</span>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section" id="summary">
+  <div class="reveal">
+    <p class="eyebrow">About Me</p>
+    <h2 class="section-title">Motivated.<br><em>Detail-Oriented.</em> Ready.</h2>
+    <p class="summary-text">
+      A motivated and detail-oriented Business Administration graduate majoring in Financial Management, seeking an entry-level position where I can apply my academic background and internship experience. Committed to contributing effectively and growing professionally within a reputable organization.
+    </p>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="exp-section" id="experience">
+  <div class="exp-inner">
+    <div class="reveal">
+      <p class="eyebrow">Work Experience</p>
+      <h2 class="section-title">Where I've <em>grown</em></h2>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-left">
+        <div class="exp-date">Jan 30, 2025 — May 30, 2025</div>
+        <div class="exp-role">On-the-Job Training</div>
+        <div class="exp-org">Municipality of Linamon<br>Lanao del Norte</div>
+      </div>
+      <div class="exp-right">
+        <ul class="exp-bullets">
+          <li>Completed an internship at the Municipality of Linamon, gaining practical experience in administrative and financial management tasks.</li>
+          <li>Supported staff members in their daily tasks, reducing workload burden and allowing for increased focus on higher-priority assignments.</li>
+          <li>Contributed to a positive team environment by collaborating with fellow interns on group projects and presentations.</li>
+          <li>Gained hands-on experience in various software programs, increasing proficiency and expanding technical skill set.</li>
+          <li>Sorted and organized files, spreadsheets, and reports.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="edu-section" id="education">
+  <div class="reveal">
+    <p class="eyebrow">Education</p>
+    <h2 class="section-title">Academic <em>foundation</em></h2>
+  </div>
+  <div class="edu-grid reveal">
+    <div class="edu-card">
+      <div class="edu-level">Tertiary</div>
+      <div class="edu-school">St. Peter's College</div>
+      <div class="edu-detail">Bachelor of Business Administration<br>Major in Financial Management</div>
+      <div class="edu-highlight">CGPA: 1.71</div>
+      <div class="edu-year">2021 — 2025</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-level">Secondary</div>
+      <div class="edu-school">Our Lady of Perpetual Help Academy</div>
+      <div class="edu-detail">Linamon, Kauswagan<br>Lanao del Norte</div>
+      <div class="edu-year">2015 — 2021</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-level">Primary</div>
+      <div class="edu-school">Linamon Central School</div>
+      <div class="edu-detail">Linamon<br>Lanao del Norte</div>
+      <div class="edu-year">2008 — 2015</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="skills-inner">
+    <div class="reveal">
+      <p class="eyebrow">Key Skills</p>
+      <h2 class="section-title">What I <em>bring</em></h2>
+    </div>
+    <div class="skills-grid reveal">
+      <div class="skill-tile">
+        <div class="skill-icon">🗂️</div>
+        <div class="skill-name">Organized</div>
+        <div class="skill-desc">Methodical in managing tasks, documents, and priorities to ensure nothing falls through the cracks.</div>
+      </div>
+      <div class="skill-tile">
+        <div class="skill-icon">📋</div>
+        <div class="skill-name">Administrative Tasks</div>
+        <div class="skill-desc">Experienced in handling office work, reports, spreadsheets, and official documentation from government OJT.</div>
+      </div>
+      <div class="skill-tile">
+        <div class="skill-icon">🤝</div>
+        <div class="skill-name">Team Collaboration</div>
+        <div class="skill-desc">Works well within teams, contributing positively to group projects and maintaining a supportive environment.</div>
+      </div>
+      <div class="skill-tile">
+        <div class="skill-icon">⏱️</div>
+        <div class="skill-name">Time Management</div>
+        <div class="skill-desc">Balances multiple responsibilities with focus, meeting deadlines and managing workload effectively.</div>
+      </div>
+      <div class="skill-tile">
+        <div class="skill-icon">⚙️</div>
+        <div class="skill-name">Systematic</div>
+        <div class="skill-desc">Approaches tasks with structure and consistency, ensuring processes are followed accurately and efficiently.</div>
+      </div>
+      <div class="skill-tile">
+        <div class="skill-icon">💬</div>
+        <div class="skill-name">Communication Skills</div>
+        <div class="skill-desc">Clear and professional in both written and verbal communication, adapting tone to different contexts and audiences.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="reveal">
+    <h2 class="contact-title">Let's <em>connect</em></h2>
+    <p class="contact-sub">Open to entry-level opportunities and professional collaborations.</p>
+    <div class="contact-links">
+      <a href="mailto:kcgeraldizo.202100048@gmail.com" class="contact-link">
+        <span class="contact-link-icon">✉</span>
+        kcgeraldizo.202100048@gmail.com
+      </a>
+      <a href="tel:+639360247693" class="contact-link">
+        <span class="contact-link-icon">✆</span>
+        +63 936 024 7693
+      </a>
+      <a href="#" class="contact-link">
+        <span class="contact-link-icon">◎</span>
+        Linamon, LAN 9201
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+
+</body>
+</html>
